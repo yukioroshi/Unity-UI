@@ -3,56 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+[RequireComponent(typeof(CharacterController))]
+
 public class PlayerBehaviourScript : MonoBehaviour
 {
     public PlayerInput playerControls;
 
-    private InputAction move;
-    private InputAction mouse;
-    private InputAction look;
 
+
+    private Vector2 _input;
+    private Vector3 _direction;
+
+    private CharacterController _characterController;
 
     private void Awake()
     {
-        playerControls = new PlayerInput();
 
+        _characterController = GetComponent<CharacterController>();
+    }
+
+
+    public void Move(InputAction.CallbackContext context)
+    {
         
-    }
-
-    private void OnEnable()
-    {
-        move = playerControls.Player.Move;
-        move.Enable();
-        move.performed += Move;
-
-        mouse = playerControls.Player.Fire;
-        mouse.Enable();
-        mouse.performed += Fire;
-
-        look = playerControls.Player.Look;
-        look.Enable();
-        look.performed += Look;
-    }
-
-    private void OnDisable()
-    {
-        move.Disable();
-        mouse.Disable();
-        look.Disable();
-    }
-
-    private void Move(InputAction.CallbackContext context)
-    {
-        Debug.Log("forward");
+        _input = context.ReadValue<Vector2>();
+        _direction = new Vector3(_input.x, 0.0f, _direction.y);
+        Debug.Log(_input);
     }
 
 
-    private void Fire(InputAction.CallbackContext context)
+    public void Fire(InputAction.CallbackContext context)
     {
         Debug.Log("piuu");
     }
 
-    private void Look(InputAction.CallbackContext context)
+    public void Look(InputAction.CallbackContext context)
     {
         Debug.Log("looking");
     }
