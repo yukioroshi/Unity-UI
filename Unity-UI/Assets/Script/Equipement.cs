@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[CreateAssetMenu(menuName = "Inventory")]
 public class Equipement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public EquipementType _type;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
+}
+
+public enum EquipementType
+{
+    Right_hand, Left_hand
 }
