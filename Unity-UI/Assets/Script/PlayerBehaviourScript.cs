@@ -1,45 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
-
-[RequireComponent(typeof(CharacterController))]
 
 public class PlayerBehaviourScript : MonoBehaviour
 {
-    public PlayerInput playerControls;
+    [SerializeField] private float speed = 1f;
+    private Rigidbody playerRb;
 
 
+    private float horizontalInput;
+    private float forwardInput;
 
-    private Vector2 _input;
-    private Vector3 _direction;
+    private float rotate;
+    public float rotationspeed;
 
-    private CharacterController _characterController;
-
-    private void Awake()
+    void Start()
     {
+        playerRb = GetComponent<Rigidbody>();
 
-        _characterController = GetComponent<CharacterController>();
+    }
+
+    private void Update()
+    {
+        //get player input
+        horizontalInput = Input.GetAxis("Horizontal");
+        forwardInput = Input.GetAxis("Vertical");
+
+        //rotate the player
+        rotate = horizontalInput * rotationspeed * Time.deltaTime;
+        transform.Rotate(0f, rotate, 0f);
+
+        //move the player forward
+        if (Input.GetKey(KeyCode.W))
+        {
+            playerRb.AddRelativeForce(Vector3.forward * speed, ForceMode.Acceleration);
+
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            playerRb.AddRelativeForce(Vector3.back * speed, ForceMode.Acceleration);
+        }
     }
 
 
-    public void Move(InputAction.CallbackContext context)
-    {
-        
-        _input = context.ReadValue<Vector2>();
-        _direction = new Vector3(_input.x, 0.0f, _direction.y);
-        Debug.Log(_input);
-    }
-
-
-    public void Fire(InputAction.CallbackContext context)
-    {
-        Debug.Log("piuu");
-    }
-
-    public void Look(InputAction.CallbackContext context)
-    {
-        Debug.Log("looking");
-    }
 }
