@@ -13,6 +13,9 @@ public class SelectionUi : MonoBehaviour
     public GameObject ObjectInterface;
 
 
+    public bool click;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,18 +28,35 @@ public class SelectionUi : MonoBehaviour
         
     }
 
-
-     public void OpenUi()
+    private void OnMouseDown()
     {
-        ObjectInterface.SetActive(true);
+        if (CompareTag("Pickable"))
+        {
+            click = true;
+            Debug.Log(click);
+        }
+
+        if (click == true)
+        {
+            ObjectInterface.SetActive(true);
+            click = false;
+        }
+    }
+
+    public void OpenSelectionUi()
+    {
+
+
     }
 
     public void SelectLeftHand()
     {
 
+        ObjectInterface.SetActive(false);
     }
     public void SelectRightHand()
     {
 
+        ObjectInterface.SetActive(false);
     }
 }
