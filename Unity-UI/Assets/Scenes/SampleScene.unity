@@ -190,6 +190,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: KitchenProps_02
       objectReference: {fileID: 0}
+    - target: {fileID: 5366650831601739498, guid: 4fb052047707ed645a77e875351e3a5c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -263,6 +268,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Knife
       objectReference: {fileID: 0}
+    - target: {fileID: 5489145493786919654, guid: c331d4509e2a94446b4dedf64fcae8dd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -285,6 +295,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plate_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5826856965007438342, guid: 9bedc97a18133ae4a828aff2a2117745,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6599734043300276412, guid: 9bedc97a18133ae4a828aff2a2117745,
         type: 3}
@@ -903,10 +918,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 602713108}
-    - targetCorrespondingSourceObject: {fileID: 8202614754564459210, guid: 10ab30527b9bc8a4995e798ac0706a37,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 602713114}
   m_SourcePrefab: {fileID: 100100000, guid: 10ab30527b9bc8a4995e798ac0706a37, type: 3}
 --- !u!4 &578188516 stripped
 Transform:
@@ -937,19 +948,6 @@ MonoBehaviour:
   Object: {fileID: 0}
   ObjectInterface: {fileID: 6588320966770895505}
   click: 0
---- !u!114 &602713114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 602713096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6058894d66af7b48bc3b1a925d8dccc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightMaterial: {fileID: 2100000, guid: f98f9ccd691348841a4ea3f2934366ef, type: 2}
 --- !u!1 &610092388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,6 +1762,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: KitchenProps_01
       objectReference: {fileID: 0}
+    - target: {fileID: 6457725450409641694, guid: 49631361040b46f4889e95efdb1b1a3c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2073,6 +2076,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: eggplant_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201655132039006845, guid: 24598e7b217c94e4dbe0f0024ed2125f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8834357469724643527, guid: 24598e7b217c94e4dbe0f0024ed2125f,
         type: 3}
