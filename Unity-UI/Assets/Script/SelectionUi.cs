@@ -33,7 +33,7 @@ public class SelectionUi : MonoBehaviour
         if (CompareTag("Pickable"))
         {
             click = true;
-            Debug.Log(click);
+            //Debug.Log(click);
         }
 
         if (click == true)
