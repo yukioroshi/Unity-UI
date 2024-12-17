@@ -1,57 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 
 public class InventorySystem : MonoBehaviour
 {
-    [SerializeField] private GameObject leftHandPanel; // Panel pour la main gauche
-    [SerializeField] private GameObject rightHandPanel; // Panel pour la main droite
-    [SerializeField] private GameObject buttonPrefab; // Préfab pour les boutons d'objet
+    //public Text leftHandText;  // Texte du panneau de la main gauche
+    //public Text rightHandText; // Texte du panneau de la main droite
 
-    private List<string> leftHandInventory = new List<string>(); // Liste des objets dans la main gauche
-    private List<string> rightHandInventory = new List<string>(); // Liste des objets dans la main droite
+    private GameObject selectedObject = null; // L'objet actuellement sélectionné
+    public LayerMask mask;
 
-    public void AddToLeftHand(string itemName)
+    [SerializeField]
+    private TMPro.TextMeshProUGUI leftHandText;
+
+    [SerializeField]
+    private TMPro.TextMeshProUGUI rightHandText;
+
+
+    void Update()
     {
-        if (!leftHandInventory.Contains(itemName))
+        // Vérifie si un objet a été cliqué
+        //if (Input.GetMouseButtonDown(0)) // Bouton gauche de la souris
+        //{
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100, mask))
+            {
+                if (hit.collider != null)
+                {
+                    selectedObject = hit.collider.gameObject; // Sélectionne l'objet
+                    hit.transform.GetComponent<Renderer>().material.color = Color.red;
+                }
+            }
+        //}
+
+        // Gestion des entrées clavier
+        if (selectedObject != null)
         {
-            leftHandInventory.Add(itemName);
-            AddButtonToPanel(itemName, leftHandPanel, leftHandInventory);
+            if (Input.GetKeyDown(KeyCode.Q)) // A pour main gauche
+            {
+                AddToLeftHand(selectedObject.name);
+                Destroy(selectedObject);
+                selectedObject = null; // Désélectionne l'objet
+                
+            }
+            else if (Input.GetKeyDown(KeyCode.E)) // D pour main droite
+            {
+                AddToRightHand(selectedObject.name);
+                Destroy(selectedObject);
+                selectedObject = null; // Désélectionne l'objet
+                
+            }
         }
     }
 
-    public void AddToRightHand(string itemName)
+    void AddToLeftHand(string objectName)
     {
-        if (!rightHandInventory.Contains(itemName))
-        {
-            rightHandInventory.Add(itemName);
-            AddButtonToPanel(itemName, rightHandPanel, rightHandInventory);
-        }
+        leftHandText.text = $"Main Gauche: {objectName}"; // Met à jour le panneau gauche
     }
 
-    private void AddButtonToPanel(string itemName, GameObject panel, List<string> inventory)
+    void AddToRightHand(string objectName)
     {
-        GameObject newButton = Instantiate(buttonPrefab, panel.transform);
-        newButton.GetComponentInChildren<UnityEngine.UI.Text>().text = itemName;
-    }
-
-    public void UseItem(string itemName, List<string> inventory, GameObject panel)
-    {
-        Debug.Log($"Used {itemName}.");
-        inventory.Remove(itemName);
-        UpdatePanelUI(inventory, panel);
-    }
-
-    private void UpdatePanelUI(List<string> inventory, GameObject panel)
-    {
-        foreach (Transform child in panel.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
-        foreach (string itemName in inventory)
-        {
-            AddButtonToPanel(itemName, panel, inventory);
-        }
+        rightHandText.text = $"Main Droite: {objectName}"; // Met à jour le panneau droit
     }
 }
