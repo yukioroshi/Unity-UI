@@ -19,6 +19,20 @@ public class InventorySystem : MonoBehaviour
     [SerializeField]
     private TMPro.TextMeshProUGUI rightHandText;
 
+    public bool isemptyRight;
+    public bool isemptyLeft;
+
+
+    public GameObject leftHandPrefab; // Préfabriqué pour l'objet dans la main gauche
+    public GameObject rightHandPrefab; // Préfabriqué pour l'objet dans la main droite
+
+
+    private void Start()
+    {
+        isemptyRight = true;
+        isemptyLeft = true;
+    }
+
 
     void Update()
     {
@@ -32,7 +46,6 @@ public class InventorySystem : MonoBehaviour
                 if (hit.collider != null)
                 {
                     selectedObject = hit.collider.gameObject; // Sélectionne l'objet
-                    hit.transform.GetComponent<Renderer>().material.color = Color.red;
                 }
             }
         //}
@@ -40,30 +53,84 @@ public class InventorySystem : MonoBehaviour
         // Gestion des entrées clavier
         if (selectedObject != null)
         {
-            if (Input.GetKeyDown(KeyCode.Q)) // A pour main gauche
+            if (Input.GetKeyDown(KeyCode.Q) && isemptyLeft == true) // A pour main gauche
             {
-                AddToLeftHand(selectedObject.name);
+                AddToLeftHand(selectedObject);
+                //leftHandPrefab = selectedObject;
                 Destroy(selectedObject);
                 selectedObject = null; // Désélectionne l'objet
                 
             }
-            else if (Input.GetKeyDown(KeyCode.E)) // D pour main droite
+            else if (Input.GetKeyDown(KeyCode.E) && isemptyRight == true) // D pour main droite
             {
-                AddToRightHand(selectedObject.name);
+                AddToRightHand(selectedObject);
+                //rightHandPrefab = selectedObject;
                 Destroy(selectedObject);
                 selectedObject = null; // Désélectionne l'objet
                 
             }
         }
+
+        // Création d'objet à partir des mains
+        if (Input.GetKeyDown(KeyCode.A) && isemptyLeft == false) // A pour créer à partir de la main gauche
+        {
+            CreateObjectFromLeftHand();
+            //isemptyLeft = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && isemptyRight == false) // D pour créer à partir de la main droite
+        {
+            CreateObjectFromRightHand();
+            //isemptyRight = true;
+        }
     }
 
-    void AddToLeftHand(string objectName)
+    void AddToLeftHand(GameObject obj)
     {
-        leftHandText.text = $"Main Gauche: {objectName}"; // Met à jour le panneau gauche
+        leftHandText.text = $"Main Gauche: {obj.name}"; // Met à jour le panneau gauche
+        leftHandPrefab = obj; // Stocke le prefab de l'objet
+        isemptyLeft = false;
     }
 
-    void AddToRightHand(string objectName)
+    void AddToRightHand(GameObject obj)
     {
-        rightHandText.text = $"Main Droite: {objectName}"; // Met à jour le panneau droit
+        rightHandText.text = $"Main Droite: {obj.name}"; // Met à jour le panneau droit
+        rightHandPrefab = obj; // Stocke le prefab de l'objet
+        isemptyRight = false;
+    }
+
+    void CreateObjectFromLeftHand()
+    {
+        if (leftHandPrefab != null)
+        {
+            // Instancier l'objet au niveau du curseur
+            Vector3 spawnPosition = GetCursorWorldPosition();
+            Instantiate(leftHandPrefab, spawnPosition, Quaternion.identity);
+            isemptyLeft = true; // Libère la main gauche
+            leftHandText.text = "Empty"; // Met à jour l'UI
+            leftHandPrefab = null; // Réinitialise la main gauche
+        }
+    }
+
+    void CreateObjectFromRightHand()
+    {
+        if (rightHandPrefab != null)
+        {
+            // Instancier l'objet au niveau du curseur
+            Vector3 spawnPosition = GetCursorWorldPosition();
+            Instantiate(rightHandPrefab, spawnPosition, Quaternion.identity);
+            isemptyRight = true; // Libère la main droite
+            rightHandText.text = "Empty"; // Met à jour l'UI
+            rightHandPrefab = null; // Réinitialise la main droite
+        }
+    }
+
+    Vector3 GetCursorWorldPosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100, mask))
+        {
+            return hit.point; // Retourne la position dans le monde
+        }
+        return Vector3.zero; // Par défaut, retourne (0, 0, 0)
     }
 }
