@@ -11,6 +11,8 @@ public class InventorySystem : MonoBehaviour
     //public Text rightHandText; // Texte du panneau de la main droite
 
     private GameObject selectedObject = null; // L'objet actuellement sélectionné
+    private GameObject ObjectinLeftHand = null;
+    private GameObject ObjectinRightHand = null;
     public LayerMask mask;
 
     [SerializeField]
@@ -26,6 +28,8 @@ public class InventorySystem : MonoBehaviour
     public GameObject leftHandPrefab; // Préfabriqué pour l'objet dans la main gauche
     public GameObject rightHandPrefab; // Préfabriqué pour l'objet dans la main droite
 
+
+    public Vector3 cursorPos;
 
     private void Start()
     {
@@ -48,6 +52,15 @@ public class InventorySystem : MonoBehaviour
                     selectedObject = hit.collider.gameObject; // Sélectionne l'objet
                 }
             }
+
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+            if (hit.collider != null)
+            {
+                cursorPos = hit.point;
+                Debug.Log(cursorPos);
+            }
+        }
         //}
 
         // Gestion des entrées clavier
@@ -57,7 +70,9 @@ public class InventorySystem : MonoBehaviour
             {
                 AddToLeftHand(selectedObject);
                 //leftHandPrefab = selectedObject;
-                Destroy(selectedObject);
+                //Destroy(selectedObject);
+                ObjectinLeftHand = selectedObject;
+                selectedObject.gameObject.SetActive(false);
                 selectedObject = null; // Désélectionne l'objet
                 
             }
@@ -65,23 +80,29 @@ public class InventorySystem : MonoBehaviour
             {
                 AddToRightHand(selectedObject);
                 //rightHandPrefab = selectedObject;
-                Destroy(selectedObject);
+                //Destroy(selectedObject);
+                ObjectinRightHand = selectedObject;
+                selectedObject.gameObject.SetActive(false);
                 selectedObject = null; // Désélectionne l'objet
                 
             }
         }
 
         // Création d'objet à partir des mains
-        if (Input.GetKeyDown(KeyCode.A) && isemptyLeft == false) // A pour créer à partir de la main gauche
+        if (Input.GetKeyDown(KeyCode.F) && isemptyLeft == false) // A pour créer à partir de la main gauche
         {
             CreateObjectFromLeftHand();
+            
             //isemptyLeft = true;
         }
-        else if (Input.GetKeyDown(KeyCode.E) && isemptyRight == false) // D pour créer à partir de la main droite
+        else if (Input.GetKeyDown(KeyCode.C) && isemptyRight == false) // D pour créer à partir de la main droite
         {
             CreateObjectFromRightHand();
+
             //isemptyRight = true;
         }
+
+       
     }
 
     void AddToLeftHand(GameObject obj)
@@ -104,10 +125,14 @@ public class InventorySystem : MonoBehaviour
         {
             // Instancier l'objet au niveau du curseur
             Vector3 spawnPosition = GetCursorWorldPosition();
-            Instantiate(leftHandPrefab, spawnPosition, Quaternion.identity);
+            //Instantiate(leftHandPrefab, spawnPosition, Quaternion.identity);
+
             isemptyLeft = true; // Libère la main gauche
             leftHandText.text = "Empty"; // Met à jour l'UI
             leftHandPrefab = null; // Réinitialise la main gauche
+
+            ObjectinLeftHand.transform.position = cursorPos;
+            ObjectinLeftHand.gameObject.SetActive(true);
         }
     }
 
@@ -117,10 +142,14 @@ public class InventorySystem : MonoBehaviour
         {
             // Instancier l'objet au niveau du curseur
             Vector3 spawnPosition = GetCursorWorldPosition();
-            Instantiate(rightHandPrefab, spawnPosition, Quaternion.identity);
+            //Instantiate(rightHandPrefab, spawnPosition, Quaternion.identity);
+
             isemptyRight = true; // Libère la main droite
             rightHandText.text = "Empty"; // Met à jour l'UI
             rightHandPrefab = null; // Réinitialise la main droite
+
+            ObjectinRightHand.transform.position = cursorPos;
+            ObjectinRightHand.gameObject.SetActive(true);
         }
     }
 
