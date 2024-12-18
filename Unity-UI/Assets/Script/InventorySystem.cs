@@ -58,7 +58,7 @@ public class InventorySystem : MonoBehaviour
             if (hit.collider != null)
             {
                 cursorPos = hit.point;
-                Debug.Log(cursorPos);
+                //Debug.Log(cursorPos);
             }
         }
         //}

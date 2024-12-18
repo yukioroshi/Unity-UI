@@ -67,8 +67,10 @@
     <Compile Include="Assets\Script\UILookAt.cs" />
     <Compile Include="Assets\Script\PlayerBehaviourScript.cs" />
     <Compile Include="Assets\Script\Highlights.cs" />
+    <Compile Include="Assets\Script\recipe.cs" />
     <Compile Include="Assets\Script\DragnDrop.cs" />
     <Compile Include="Assets\Script\cameramove.cs" />
+    <Compile Include="Assets\CookBook\recipe.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
