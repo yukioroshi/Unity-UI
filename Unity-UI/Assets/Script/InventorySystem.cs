@@ -24,12 +24,18 @@ public class InventorySystem : MonoBehaviour
     public bool isemptyRight;
     public bool isemptyLeft;
 
+    public GameObject RightImage;
+    public GameObject LeftImage;
+
 
     public GameObject leftHandPrefab; // Préfabriqué pour l'objet dans la main gauche
     public GameObject rightHandPrefab; // Préfabriqué pour l'objet dans la main droite
 
 
     public Vector3 cursorPos;
+
+    [SerializeField]
+    public float maxdistance;
 
     private void Start()
     {
@@ -45,7 +51,7 @@ public class InventorySystem : MonoBehaviour
         //{
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100, mask))
+            if (Physics.Raycast(ray, out hit, maxdistance, mask))
             {
                 if (hit.collider != null)
                 {
@@ -53,7 +59,7 @@ public class InventorySystem : MonoBehaviour
                 }
             }
 
-        if (Physics.Raycast(ray, out hit, 100))
+        if (Physics.Raycast(ray, out hit, maxdistance))
         {
             if (hit.collider != null)
             {
@@ -102,7 +108,26 @@ public class InventorySystem : MonoBehaviour
             //isemptyRight = true;
         }
 
-       
+
+        if (isemptyLeft == false)
+        {
+            LeftImage.SetActive(false);
+        }
+        else
+        {
+            LeftImage.SetActive(true);
+        }
+
+
+        if (isemptyRight == false)
+        {
+            RightImage.SetActive(false);
+        }
+        else
+        {
+            RightImage.SetActive(true);
+        }
+
     }
 
     void AddToLeftHand(GameObject obj)
@@ -128,7 +153,7 @@ public class InventorySystem : MonoBehaviour
             //Instantiate(leftHandPrefab, spawnPosition, Quaternion.identity);
 
             isemptyLeft = true; // Libère la main gauche
-            leftHandText.text = "Empty"; // Met à jour l'UI
+            leftHandText.text = "."; // Met à jour l'UI
             leftHandPrefab = null; // Réinitialise la main gauche
 
             ObjectinLeftHand.transform.position = cursorPos;
@@ -145,7 +170,7 @@ public class InventorySystem : MonoBehaviour
             //Instantiate(rightHandPrefab, spawnPosition, Quaternion.identity);
 
             isemptyRight = true; // Libère la main droite
-            rightHandText.text = "Empty"; // Met à jour l'UI
+            rightHandText.text = "."; // Met à jour l'UI
             rightHandPrefab = null; // Réinitialise la main droite
 
             ObjectinRightHand.transform.position = cursorPos;
