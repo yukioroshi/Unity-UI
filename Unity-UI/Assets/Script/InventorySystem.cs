@@ -37,6 +37,12 @@ public class InventorySystem : MonoBehaviour
     [SerializeField]
     public float maxdistance;
 
+
+
+    public Conteneur conteneur;
+    public Conteneur conteneur2;
+    public Conteneur conteneur3;
+
     private void Start()
     {
         isemptyRight = true;
@@ -77,20 +83,28 @@ public class InventorySystem : MonoBehaviour
                 AddToLeftHand(selectedObject);
                 //leftHandPrefab = selectedObject;
                 //Destroy(selectedObject);
+                
                 ObjectinLeftHand = selectedObject;
                 selectedObject.gameObject.SetActive(false);
                 selectedObject = null; // Désélectionne l'objet
-                
+                conteneur.hasCollided = false;
+                conteneur2.hasCollided = false;
+                conteneur3.hasCollided = false;
+
             }
             else if (Input.GetKeyDown(KeyCode.E) && isemptyRight == true) // D pour main droite
             {
                 AddToRightHand(selectedObject);
                 //rightHandPrefab = selectedObject;
                 //Destroy(selectedObject);
+                
                 ObjectinRightHand = selectedObject;
                 selectedObject.gameObject.SetActive(false);
                 selectedObject = null; // Désélectionne l'objet
-                
+                conteneur.hasCollided = false;
+                conteneur2.hasCollided = false;
+                conteneur3.hasCollided = false;
+
             }
         }
 
